@@ -8,29 +8,53 @@ namespace Course_OOP_Csharp
 {
     public class ProductInStore : ProductOnStock
     {
-        protected double markup;
-        protected string expirationDate;
+        protected double markup; 
+        protected string expirationDate; 
 
         public ProductInStore(string name, string date, string certificate, double cost, double markup, string expirationDate)
-            : base(name, date, certificate, cost)
-        {
-            this.markup = markup;
-            this.expirationDate = expirationDate;
-        }
-
-        ~ProductInStore() { 
+            : base(name, date, certificate, cost) 
             
+        {
+
+            if (DateTime.Parse(expirationDate)< DateTime.Parse(date))
+            {
+                throw new Exception("Expiration Date can not be before manufacturing date");
+            }
+            Markup = markup; 
+            ExpirationDate = expirationDate;
         }
+        ~ProductInStore() 
+        {
 
-        public void SetMarkup(double markup) { this.markup = markup; }
-        public void SetExpirationDate(string date) { expirationDate = date; }
+        }
+        public double Markup
+        {
+            set
+            {
+                markup = value;
+            }
+            get
+            {
+                return markup;
 
-        public double GetMarkup() { return markup; }
-        public string GetExpirationDate() { return expirationDate; }
+            }
+        }
+        public string ExpirationDate
+        {
+            set
+            {
+                validateDate(value);
+                expirationDate = value;
+            }
+            get
+            {
+                return expirationDate;
 
+            }
+        }
         public override double GetPrice()
         {
-            return cost * (1 + markup);
+            return cost * (1 + markup); 
         }
     }
 }

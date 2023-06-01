@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,25 +7,47 @@ using System.Threading.Tasks;
 
 namespace Course_OOP_Csharp
 {
-    public class StoreIterator<T> : IEnumerable<T>
+    public class StoreIterator : IEnumerator<ProductInStore>
     {
-        List<T> list = new List<T> ();
+        private ProductInStore[] products;
 
-        public void Add(T item) {
-            list.Add(item);
+        private int iteratorPosition = -1;
+
+        public StoreIterator(ProductInStore[] products)
+        {
+            this.products = products;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public ProductInStore Current
         {
-            foreach (var item in list)
+            get
             {
-                yield return item;
+                return products[iteratorPosition];
             }
         }
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        object IEnumerator.Current
         {
-            throw new NotImplementedException();
+            get
+            {
+                return Current;
+            }
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            iteratorPosition++;
+            return iteratorPosition < products.Length;
+        }
+
+        public void Reset()
+        {
+            iteratorPosition = 0;
         }
     }
 }
+

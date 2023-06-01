@@ -12,12 +12,11 @@ namespace Course_OOP_Csharp
 {
     public partial class Form1 : Form
     {
-        private Store store;
+        private Store store; 
         public Form1()
         {
-
-            InitializeComponent();
-            store = new Store();
+            InitializeComponent(); 
+            store = new Store(); 
         }
 
         private void addProductButton_Click(object sender, EventArgs e)
@@ -28,15 +27,24 @@ namespace Course_OOP_Csharp
             double cost = double.Parse(costTextBox.Text);
             double markup = double.Parse(markupTextBox.Text);
             string expirationDate = expirationDateTextBox.Text;
-
-            ProductInStore product = new ProductInStore(name, date, certificate, cost, markup, expirationDate);
-            store.AddProduct(product);
-            productsListBox.Items.Add(product.GetProductName()+"\t"+product.GetManufacturingDate() + "\t" + product.GetQualityCertificate() + "\t" + product.GetCost() + "\t" + product.GetMarkup() + "\t" + product.GetExpirationDate());
+            try
+            {
+                ProductInStore product = new ProductInStore(name, date, certificate, cost, markup, expirationDate);
+                store.AddProduct(product);
+                productsListBox.Items.Add(product.ProductName + "\t" + product.ManufacturingDate + "\t" + product.QualityCertificate + "\t" + product.Cost + "\t" + product.Markup + "\t" + product.ExpirationDate);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            foreach(ProductInStore product in store)
+            { Console.WriteLine(product.ProductName + "\t" + product.ManufacturingDate + "\t" + product.QualityCertificate + "\t" + product.Cost + "\t" + product.Markup + "\t" + product.ExpirationDate); }
         }
+
         private void calculateProfitButton_Click(object sender, EventArgs e)
         {
-            double profit = store.GetTotalProfit();
-            profitLabel.Text = $"Total Profit: {profit}";
+            double profit = store.GetTotalProfit(); 
+            profitLabel.Text = $"Total Profit: {profit}"; 
         }
     }
 }
